@@ -1,6 +1,7 @@
 import React from 'react';
+import { useState } from 'react';
 import { Image, StyleSheet, Platform } from 'react-native';
-import { View, Button, TextInput } from 'react-native';
+import { View, Button, TextInput, Text } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -8,7 +9,36 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
-  const [text, onTextChange] = React.useState("Enter the url")
+  const [text, onTextChange] = useState("http://reactnative.dev/movies.json")
+
+  const [data, setData] = useState("")
+  const request  = new XMLHttpRequest() 
+
+  const handleWebBrowserRequest  = () =>{
+    request.onreadystatechange = e =>{
+      if(request.readyState !== 4){
+        return
+
+      }
+
+      if(request.status === 200){
+        console.log('success')
+        setData("status: " + request.status + " " + request.statusText + " " + request.responseText + " " + request.response )
+      }
+
+      else{
+        console.log("failed")
+        setData("status: " + request.status + " " + request.statusText + " " + request.responseText + " " + request.response )
+
+      }
+    }
+
+    request.open('GET', text)
+    request.send()
+  }
+
+
+
 
   return (
     <View style = {styles.containerColumn}>
@@ -19,9 +49,11 @@ export default function HomeScreen() {
         onChangeText = {onTextChange}
 />
         <Button title = "Click me"
-        onPress = {() =>{alert("Hello " + text)}}></Button>
+        onPress = {() => handleWebBrowserRequest()}></Button>
 
       </View>
+
+      <Text>{data}</Text>
 
 
     </View>

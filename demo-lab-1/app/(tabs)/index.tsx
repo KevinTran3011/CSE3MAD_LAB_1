@@ -1,17 +1,25 @@
+import React from 'react';
 import { Image, StyleSheet, Platform } from 'react-native';
-import { View } from 'react-native';
-import { Button } from 'react-native';
+import { View, Button, TextInput } from 'react-native';
+
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
+  const [text, onTextChange] = React.useState("Enter the url")
+
   return (
     <View style = {styles.containerColumn}>
       <View style = {styles.containerRow}>
+        <TextInput 
+        style = {styles.textInput}
+        value = {text}
+        onChangeText = {onTextChange}
+/>
         <Button title = "Click me"
-        onPress = {() =>{alert("Hello ")}}></Button>
+        onPress = {() =>{alert("Hello " + text)}}></Button>
 
       </View>
 
@@ -34,6 +42,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
+
+
+  },
+  textInput: {
+    color: 'blue',
 
 
   },
